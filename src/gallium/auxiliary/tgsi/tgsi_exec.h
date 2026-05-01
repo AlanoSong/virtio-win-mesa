@@ -73,7 +73,12 @@ extern "C" {
   */
 union tgsi_exec_channel
 {
+   // Alano: Fix build error on visual studio
+#ifdef _MSC_VER
+   __declspec(align(16))
+#else
    alignas(16)
+#endif
    float    f[TGSI_QUAD_SIZE];
    int32_t  i[TGSI_QUAD_SIZE];
    uint32_t u[TGSI_QUAD_SIZE];
@@ -84,7 +89,13 @@ union tgsi_exec_channel
   */
 struct tgsi_exec_vector
 {
-   alignas(16) union tgsi_exec_channel xyzw[TGSI_NUM_CHANNELS];
+      // Alano: Fix build error on visual studio
+#ifdef _MSC_VER
+   __declspec(align(16))
+#else
+   alignas(16)
+#endif
+   union tgsi_exec_channel xyzw[TGSI_NUM_CHANNELS];
 };
 
 /**
@@ -296,7 +307,12 @@ struct tgsi_exec_machine
 {
    /* Total = program temporaries + internal temporaries
     */
+   // Alano: Fix build error on visual studio
+#ifdef _MSC_VER
+   __declspec(align(16))
+#else
    alignas(16)
+#endif
    struct tgsi_exec_vector       Temps[TGSI_EXEC_NUM_TEMPS];
 
    unsigned                       ImmsReserved;

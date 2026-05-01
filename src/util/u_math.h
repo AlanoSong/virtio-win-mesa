@@ -51,6 +51,11 @@
 #include "util/detect_arch.h"
 #include "util/macros.h"
 
+// Alano: Fix build error on visual studio
+#ifdef _MSC_VER
+#include "win-stub.h"
+#endif
+
 #ifdef __HAIKU__
 #include <sys/param.h>
 #undef ALIGN

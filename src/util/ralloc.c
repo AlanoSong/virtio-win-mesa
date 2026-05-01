@@ -50,7 +50,12 @@
  */
 struct ralloc_header
 {
+   // Alano: Fix build error on visual studio
+#ifdef _MSC_VER
+   __declspec(align(HEADER_ALIGN))
+#else
    alignas(HEADER_ALIGN)
+#endif
 
 #ifndef NDEBUG
    /* A canary value used to determine whether a pointer is ralloc'd. */
@@ -618,7 +623,12 @@ typedef struct
  * allocated using a freelist backed by a simple linear allocator.
  */
 typedef struct gc_slab {
+   // Alano: Fix build error on visual studio
+#ifdef _MSC_VER
+   __declspec(align(HEADER_ALIGN))
+#else
    alignas(HEADER_ALIGN)
+#endif
 
    gc_ctx *ctx;
 
@@ -1007,7 +1017,12 @@ gc_sweep_end(gc_ctx *ctx)
 
 struct linear_ctx {
 
+      // Alano: Fix build error on visual studio
+#ifdef _MSC_VER
+   __declspec(align(HEADER_ALIGN))
+#else
    alignas(HEADER_ALIGN)
+#endif
 
 #ifndef NDEBUG
    unsigned magic;   /* for debugging */
@@ -1023,7 +1038,12 @@ typedef struct linear_ctx linear_ctx;
 
 #ifndef NDEBUG
 struct linear_node_canary {
+   // Alano: Fix build error on visual studio
+#ifdef _MSC_VER
+   __declspec(align(HEADER_ALIGN))
+#else
    alignas(HEADER_ALIGN)
+#endif
    unsigned magic;
    unsigned offset;  /* points to the first unused byte in *this* buffer */
 };

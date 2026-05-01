@@ -203,7 +203,14 @@ os_get_android_option(const char *name)
 const char *
 os_get_option(const char *name)
 {
-   static thread_local char value[_MAX_ENV];
+   static
+   // Alano: Fix build error on visual studio
+#ifdef _MSC_VER
+   __declspec(thread)
+#else
+   thread_local
+#endif
+   char value[_MAX_ENV];
    DWORD size = GetEnvironmentVariableA(name, value, _MAX_ENV);
    return (size > 0 && size < _MAX_ENV) ? value : NULL;
 }

@@ -27,6 +27,11 @@
 #include "util/u_math.h"
 #include "nir_builder.h"
 
+// Alano: Fix build error on visual studio
+#ifdef _MSC_VER
+#include <corecrt_math_defines.h>
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif

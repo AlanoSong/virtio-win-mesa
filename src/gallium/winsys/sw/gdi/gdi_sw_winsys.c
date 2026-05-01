@@ -44,7 +44,10 @@
 #include "util/u_memory.h"
 #include "frontend/sw_winsys.h"
 #include "gdi_sw_winsys.h"
+// Alano: Fix build error on visual studio
+#ifndef _MSC_VER
 #include "wgl/stw_gdishim.h"
+#endif
 
 
 struct gdi_sw_displaytarget

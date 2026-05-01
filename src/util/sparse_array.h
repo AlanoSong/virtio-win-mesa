@@ -97,7 +97,13 @@ struct util_sparse_array_free_list
     * We want this element to be 8-byte aligned.  Otherwise, the performance
     * of atomic operations on it will be aweful on 32-bit platforms.
     */
-   alignas(8) uint64_t head;
+      // Alano: Fix build error on visual studio
+#ifdef _MSC_VER
+   __declspec(align(8))
+#else
+   alignas(8)
+#endif
+   uint64_t head;
 
    /** The array backing this free list */
    struct util_sparse_array *arr;
