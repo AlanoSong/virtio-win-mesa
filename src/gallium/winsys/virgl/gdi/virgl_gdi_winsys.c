@@ -489,7 +489,12 @@ virgl_gdi_fence_wait(struct virgl_winsys *vws, struct pipe_fence_handle *_fence,
          timeout_ms++;
    }
 
+   // Alano: Fix build error on visual studio
+#ifdef _MSC_VER
+   return WaitForSingleObject(fence->handle, timeout) == 0;
+#else
    return WaitForSingleObject(fence->handle, timeout) == STATUS_WAIT_0;
+#endif
 }
 
 static void

@@ -247,6 +247,8 @@ static void scan_instruction(const struct nir_shader *nir,
    }
 }
 
+/* only llvmpipe uses this path, so handle draw not using llvm */
+#if DRAW_LLVM_AVAILABLE
 void nir_tgsi_scan_shader(const struct nir_shader *nir,
                           struct tgsi_shader_info *info,
                           bool need_texcoord)
@@ -642,3 +644,5 @@ void nir_tgsi_scan_shader(const struct nir_shader *nir,
          scan_instruction(nir, need_texcoord, info, instr);
    }
 }
+#endif // DRAW_LLVM_AVAILABLE
+
