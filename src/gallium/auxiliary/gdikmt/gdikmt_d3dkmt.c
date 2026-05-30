@@ -8,6 +8,7 @@
 #include <d3dukmdt.h>
 #include <winnt.h>
 #include <winternl.h>
+#include <ntstatus.h>
 
 struct d3dkmt_callbacks {
    PFND3DKMT_QUERYADAPTERINFO queryAdapterInfo;

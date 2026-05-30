@@ -379,8 +379,22 @@ debug_dump_enum(const struct debug_named_value *names,
 const char *
 debug_dump_flags(const struct debug_named_value *names, uint64_t value)
 {
-   static thread_local char output[4096];
-   static thread_local char rest[256];
+   static
+   // Alano: Fix build error on visual studio
+#ifdef _MSC_VER
+   __declspec(thread)
+#else
+   thread_local
+#endif
+   char output[4096];
+   static
+   // Alano: Fix build error on visual studio
+#ifdef _MSC_VER
+   __declspec(thread)
+#else
+   thread_local
+#endif
+   char rest[256];
    int first = 1;
 
    output[0] = '\0';

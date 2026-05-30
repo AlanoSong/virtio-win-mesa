@@ -35,6 +35,11 @@
 
 #include "c99_compat.h"
 
+// Alano: Fix build error on visual studio
+#ifdef _MSC_VER
+#include "win-stub.h"
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif

@@ -2999,9 +2999,14 @@ nir_def_instr(const nir_def *def)
 /*
  * For C we can use _Generic to overload on the constantness properly.
  */
+// Alano: Fix build error on visual studio
+#ifdef _MSC_VER
+#define nir_def_instr(_def) (&container_of(_def, nir_undef_instr, def)->instr)
+#else
 #define nir_def_instr(def) _Generic((def), \
    const nir_def *: nir_def_instr_const,   \
    nir_def *: nir_def_instr_nonconst)(def)
+#endif
 #endif
 
 static inline nir_block *

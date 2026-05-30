@@ -169,10 +169,15 @@ int thrd_create(thrd_t *, thrd_start_t, void *);
 thrd_t thrd_current(void);
 int thrd_detach(thrd_t);
 int thrd_equal(thrd_t, thrd_t);
+// Alano: Fix build error on visual studio
+#ifdef _MSC_VER
+__declspec(noreturn)
+#else
 #if defined(__cplusplus)
 [[ noreturn ]]
 #else
 _Noreturn
+#endif
 #endif
 void thrd_exit(int);
 int thrd_join(thrd_t, int *);

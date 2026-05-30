@@ -137,6 +137,10 @@ __forceinline short _interlockedadd16(short volatile * _Addend, short _Value)
 
 
 #define p_atomic_set(_v, _i) (*(_v) = (_i))
+// Alano: Fix build error on visual studio
+#ifdef _MSC_VER
+#define p_atomic_read(_v) (*(_v))
+#else
 #if defined(__cplusplus)
 #include <type_traits>
 #define p_atomic_read(_v) (*reinterpret_cast<std::add_pointer_t<std::add_volatile_t<std::remove_pointer_t<decltype(_v)>>>>(_v))
@@ -156,6 +160,7 @@ __forceinline short _interlockedadd16(short volatile * _Addend, short _Value)
    float           : *((volatile float*)           (_v)), \
    double          : *((volatile double*)          (_v)), \
    default         : *(_v)))
+#endif
 #endif
 #define p_atomic_read_relaxed(_v) (*(_v))
 
@@ -370,18 +375,28 @@ static inline uint64_t p_atomic_xchg_64(uint64_t *v, uint64_t i)
  * use `alignas(8) int64_t $member` or `alignas(8) uint64_t $member` is enough.
  */
 typedef struct {
+   // Alano: Fix build error on visual studio
+#ifdef _MSC_VER
+   __declspec(align(8))
+#else
 #ifndef __cplusplus
    _Alignas(8)
 #else
    alignas(8)
 #endif
+#endif
    int64_t value;
 } p_atomic_int64_t;
 typedef struct {
+   // Alano: Fix build error on visual studio
+#ifdef _MSC_VER
+   __declspec(align(8))
+#else
 #ifndef __cplusplus
    _Alignas(8)
 #else
    alignas(8)
+#endif
 #endif
    uint64_t value;
 } p_atomic_uint64_t;

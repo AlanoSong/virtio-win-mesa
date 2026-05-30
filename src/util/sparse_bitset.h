@@ -67,10 +67,14 @@ static inline void
 u_sparse_bitset_init(struct u_sparse_bitset *s, unsigned capacity,
                      void *mem_ctx)
 {
+   // Alano: Fix build error on visual studio
+   /*
    if (capacity && capacity < U_SPARSE_BITSET_SMALL_SET_THRESHOLD) {
       s->vals = BITSET_RZALLOC(mem_ctx, capacity);
       s->capacity = capacity;
-   } else {
+   } else
+   */
+   {
       rb_tree_init(&s->tree);
       s->mem_ctx = mem_ctx;
       s->capacity = 0;

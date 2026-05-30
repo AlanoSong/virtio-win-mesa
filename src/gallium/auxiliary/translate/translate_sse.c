@@ -111,8 +111,20 @@ struct translate_sse
    struct x86_function elt8_func;
    struct x86_function *func;
 
-   alignas(16) float consts[NUM_FLOAT_CONSTS][4];
-   alignas(16) float uconsts[NUM_UNSIGNED_CONSTS][4];
+   // Alano: Fix build error on visual studio
+#ifdef _MSC_VER
+   __declspec(align(16))
+#else
+   alignas(16)
+#endif
+   float consts[NUM_FLOAT_CONSTS][4];
+   // Alano: Fix build error on visual studio
+#ifdef _MSC_VER
+   __declspec(align(16))
+#else
+   alignas(16)
+#endif
+   float uconsts[NUM_UNSIGNED_CONSTS][4];
    int8_t reg_to_const[16];
    int8_t const_to_reg[NUM_FLOAT_CONSTS + NUM_UNSIGNED_CONSTS];
 

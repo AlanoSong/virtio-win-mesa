@@ -46,7 +46,14 @@ struct thrd_state {
     bool handle_need_close;
 };
 
-static thread_local struct thrd_state impl_current_thread = { 0 };
+static
+// Alano: Fix build error on visual studio
+#ifdef _MSC_VER
+__declspec(thread)
+#else
+thread_local
+#endif
+struct thrd_state impl_current_thread = { 0 };
 
 static unsigned __stdcall impl_thrd_routine(void *p)
 {
@@ -339,7 +346,12 @@ thrd_equal(thrd_t thr0, thrd_t thr1)
 }
 
 // 7.25.5.5
+// Alano: Fix build error on visual studio
+#ifdef _MSC_VER
+__declspec(noreturn)
+#else
 _Noreturn
+#endif
 void
 thrd_exit(int res)
 {
@@ -355,7 +367,12 @@ thrd_join(thrd_t thr, int *res)
         return thrd_error;
     }
     w = WaitForSingleObject(thr.handle, INFINITE);
+    // Alano: Fix build error on visual studio
+#ifdef _MSC_VER
+    if (w != 0)
+#else
     if (w != WAIT_OBJECT_0)
+#endif
         return thrd_error;
     if (res) {
         if (!GetExitCodeThread(thr.handle, &code)) {

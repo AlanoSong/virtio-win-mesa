@@ -54,6 +54,7 @@
 
 #include <d3dkmthk.h>
 #include <debugapi.h>
+#include <ntstatus.h>
 
 #define VIRGL_DRM_CAPSET_VIRGL  1
 #define VIRGL_DRM_CAPSET_VIRGL2 2
@@ -488,7 +489,6 @@ virgl_gdi_fence_wait(struct virgl_winsys *vws, struct pipe_fence_handle *_fence,
       if (timeout_ms * 1000000 < timeout)
          timeout_ms++;
    }
-
    return WaitForSingleObject(fence->handle, timeout) == STATUS_WAIT_0;
 }
 

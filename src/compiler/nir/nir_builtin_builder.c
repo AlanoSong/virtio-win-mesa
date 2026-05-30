@@ -22,6 +22,10 @@
  * IN THE SOFTWARE.
  */
 
+// Alano: Fix build error on visual studio
+#ifdef _MSC_VER
+#define _USE_MATH_DEFINES
+#endif
 #include <math.h>
 
 #include "nir.h"

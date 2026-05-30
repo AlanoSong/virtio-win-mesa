@@ -11,7 +11,14 @@ struct util_call_once_context_t
    util_call_once_data_func func;
 };
 
-static thread_local struct util_call_once_context_t call_once_context;
+static
+// Alano: Fix build error on visual studio
+#ifdef _MSC_VER
+__declspec(thread)
+#else
+thread_local
+#endif
+struct util_call_once_context_t call_once_context;
 
 static void
 util_call_once_data_slow_once(void)

@@ -78,7 +78,12 @@ static_assert(alignof(struct tgsi_exec_vector) == 16, "");
 static_assert(alignof(struct tgsi_exec_machine) == 16, "");
 
 union tgsi_double_channel {
+   // Alano: Fix build error on visual studio
+#ifdef _MSC_VER
+   __declspec(align(16))
+#else
    alignas(16)
+#endif
    double d[TGSI_QUAD_SIZE];
    unsigned u[TGSI_QUAD_SIZE][2];
    uint64_t u64[TGSI_QUAD_SIZE];
@@ -86,7 +91,12 @@ union tgsi_double_channel {
 };
 
 struct tgsi_double_vector {
+   // Alano: Fix build error on visual studio
+#ifdef _MSC_VER
+   __declspec(align(16))
+#else
    alignas(16)
+#endif
    union tgsi_double_channel xy;
    union tgsi_double_channel zw;
 };
@@ -4814,7 +4824,8 @@ exec_interp_at_sample(struct tgsi_exec_machine *mach,
          float y = 0;
 
          unsigned pos = index2D.i[chan] * TGSI_EXEC_MAX_INPUT_ATTRIBS + index.i[chan];
-         assert(pos >= 0);
+         // Alano: Fix build error on visual studio
+         // assert(pos >= 0);
          assert(pos < TGSI_MAX_PRIM_VERTICES * PIPE_MAX_ATTRIBS);
          mach->InputSampleOffsetApply[pos](mach, pos, chan, x, y, &result[chan]);
       }
