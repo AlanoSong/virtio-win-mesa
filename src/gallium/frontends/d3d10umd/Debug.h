@@ -25,13 +25,13 @@ extern unsigned st_debug;
 #define st_debug 0
 #endif
 
-
 #if MESA_DEBUG
 void st_debug_parse(void);
 #else
 #define st_debug_parse() ((void)0)
 #endif
 
+extern BOOLEAN dbg_print;
 
 void
 DebugPrintf(const char *format, ...);
@@ -60,7 +60,7 @@ AssertFail(const char *expr, const char *file, unsigned line, const char *functi
 #endif
 
 
-#if 0 && !defined(NDEBUG)
+#ifdef DBG
 #define LOG_ENTRYPOINT() DebugPrintf("%s\n", __func__)
 #else
 #define LOG_ENTRYPOINT() (void)0

@@ -123,7 +123,7 @@ OpenAdapter10(__inout D3D10DDIARG_OPENADAPTER *pOpenData)   // IN
 #endif
       break;
    default:
-      if (0) {
+      if (dbg_print) {
          DebugPrintf("%s: unsupported interface version 0x%08x\n",
                      __func__, pOpenData->Interface);
       }
@@ -198,10 +198,25 @@ GetSupportedVersions(D3D10DDI_HADAPTER hAdapter,
 
 static HRESULT APIENTRY
 GetCaps(D3D10DDI_HADAPTER hAdapter,
-        const D3D10_2DDIARG_GETCAPS *pData)
+        const D3D10_2DDIARG_GETCAPS *pGetCaps)
 {
    LOG_ENTRYPOINT();
-   memset(pData->pData, 0, pData->DataSize);
+
+   switch (pGetCaps->Type)
+   {
+      case D3D11DDICAPS_3DPIPELINESUPPORT:
+      {
+         D3D11DDI_3DPIPELINESUPPORT_CAPS *p3dPipelineSupport = (D3D11DDI_3DPIPELINESUPPORT_CAPS *)pGetCaps->pData;
+         p3dPipelineSupport->Caps = D3D11DDI_ENCODE_3DPIPELINESUPPORT_CAP(D3D11DDI_3DPIPELINELEVEL_10_0);
+         break;
+      }
+      default:
+      {
+         memset(pGetCaps->pData, 0, pGetCaps->DataSize);
+         break;
+      }
+   }
+
    return S_OK;
 }
 

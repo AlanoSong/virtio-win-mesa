@@ -230,51 +230,55 @@ CreateResource(D3D10DDI_HDEVICE hDevice,                                // IN
 {
    LOG_ENTRYPOINT();
 
-   if ((pCreateResource->MiscFlags & D3D10_DDI_RESOURCE_MISC_SHARED) ||
-       (pCreateResource->pPrimaryDesc &&
-        pCreateResource->pPrimaryDesc->DriverFlags & DXGI_DDI_PRIMARY_OPTIONAL)) {
-
-      DebugPrintf("%s(%dx%dx%d hResource=%p)\n",
-	       __func__,
-	       pCreateResource->pMipInfoList[0].TexelWidth,
-	       pCreateResource->pMipInfoList[0].TexelHeight,
-	       pCreateResource->pMipInfoList[0].TexelDepth,
-	       hResource.pDrvPrivate);
+   if (dbg_print) {
+      DebugPrintf("%s(%dx%dx%d hResource=%p hRTResource=%p)\n",
+                  __func__,
+                  pCreateResource->pMipInfoList[0].TexelWidth,
+                  pCreateResource->pMipInfoList[0].TexelHeight,
+                  pCreateResource->pMipInfoList[0].TexelDepth,
+                  hResource.pDrvPrivate,
+                  hRTResource.handle);
+      if (pCreateResource->pInitialDataUP) {
+         DebugPrintf("  pInitialDataUP:\n");
+         DebugPrintf("    pSysMem = %p\n", pCreateResource->pInitialDataUP->pSysMem);
+         DebugPrintf("    SysMemPitch = %u\n", pCreateResource->pInitialDataUP->SysMemPitch);
+         DebugPrintf("    SysMemSlicePitch = %u\n", pCreateResource->pInitialDataUP->SysMemSlicePitch);
+      }
       DebugPrintf("  ResourceDimension = %u\n",
-	       pCreateResource->ResourceDimension);
+                  pCreateResource->ResourceDimension);
       DebugPrintf("  Usage = %u\n",
-	       pCreateResource->Usage);
+                  pCreateResource->Usage);
       DebugPrintf("  BindFlags = 0x%x\n",
-	       pCreateResource->BindFlags);
+                  pCreateResource->BindFlags);
       DebugPrintf("  MapFlags = 0x%x\n",
-	       pCreateResource->MapFlags);
+                  pCreateResource->MapFlags);
       DebugPrintf("  MiscFlags = 0x%x\n",
-	       pCreateResource->MiscFlags);
+                  pCreateResource->MiscFlags);
       DebugPrintf("  Format = %s\n",
-	       FormatToName(pCreateResource->Format));
+                  FormatToName(pCreateResource->Format));
       DebugPrintf("  SampleDesc.Count = %u\n", pCreateResource->SampleDesc.Count);
       DebugPrintf("  SampleDesc.Quality = %u\n", pCreateResource->SampleDesc.Quality);
       DebugPrintf("  MipLevels = %u\n", pCreateResource->MipLevels);
       DebugPrintf("  ArraySize = %u\n", pCreateResource->ArraySize);
       DebugPrintf("  pPrimaryDesc = %p\n", pCreateResource->pPrimaryDesc);
       if (pCreateResource->pPrimaryDesc) {
-	 DebugPrintf("    Flags = 0x%x\n",
-		  pCreateResource->pPrimaryDesc->Flags);
-	 DebugPrintf("    VidPnSourceId = %u\n", pCreateResource->pPrimaryDesc->VidPnSourceId);
-	 DebugPrintf("    ModeDesc.Width = %u\n", pCreateResource->pPrimaryDesc->ModeDesc.Width);
-	 DebugPrintf("    ModeDesc.Height = %u\n", pCreateResource->pPrimaryDesc->ModeDesc.Height);
-	 DebugPrintf("    ModeDesc.Format = %u)\n",
-		  pCreateResource->pPrimaryDesc->ModeDesc.Format);
-	 DebugPrintf("    ModeDesc.RefreshRate.Numerator = %u\n", pCreateResource->pPrimaryDesc->ModeDesc.RefreshRate.Numerator);
-	 DebugPrintf("    ModeDesc.RefreshRate.Denominator = %u\n", pCreateResource->pPrimaryDesc->ModeDesc.RefreshRate.Denominator);
-	 DebugPrintf("    ModeDesc.ScanlineOrdering = %u\n",
-		  pCreateResource->pPrimaryDesc->ModeDesc.ScanlineOrdering);
-	 DebugPrintf("    ModeDesc.Rotation = %u\n",
-		  pCreateResource->pPrimaryDesc->ModeDesc.Rotation);
-	 DebugPrintf("    ModeDesc.Scaling = %u\n",
-		  pCreateResource->pPrimaryDesc->ModeDesc.Scaling);
-	 DebugPrintf("    DriverFlags = 0x%x\n",
-		  pCreateResource->pPrimaryDesc->DriverFlags);
+         DebugPrintf("    Flags = 0x%x\n",
+                     pCreateResource->pPrimaryDesc->Flags);
+         DebugPrintf("    VidPnSourceId = %u\n", pCreateResource->pPrimaryDesc->VidPnSourceId);
+         DebugPrintf("    ModeDesc.Width = %u\n", pCreateResource->pPrimaryDesc->ModeDesc.Width);
+         DebugPrintf("    ModeDesc.Height = %u\n", pCreateResource->pPrimaryDesc->ModeDesc.Height);
+         DebugPrintf("    ModeDesc.Format = %u)\n",
+                     pCreateResource->pPrimaryDesc->ModeDesc.Format);
+         DebugPrintf("    ModeDesc.RefreshRate.Numerator = %u\n", pCreateResource->pPrimaryDesc->ModeDesc.RefreshRate.Numerator);
+         DebugPrintf("    ModeDesc.RefreshRate.Denominator = %u\n", pCreateResource->pPrimaryDesc->ModeDesc.RefreshRate.Denominator);
+         DebugPrintf("    ModeDesc.ScanlineOrdering = %u\n",
+                     pCreateResource->pPrimaryDesc->ModeDesc.ScanlineOrdering);
+         DebugPrintf("    ModeDesc.Rotation = %u\n",
+                     pCreateResource->pPrimaryDesc->ModeDesc.Rotation);
+         DebugPrintf("    ModeDesc.Scaling = %u\n",
+                     pCreateResource->pPrimaryDesc->ModeDesc.Scaling);
+         DebugPrintf("    DriverFlags = 0x%x\n",
+                     pCreateResource->pPrimaryDesc->DriverFlags);
       }
 
    }

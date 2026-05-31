@@ -84,6 +84,7 @@ SIZE_T APIENTRY
 CalcPrivateDeviceSize(D3D10DDI_HADAPTER hAdapter,                          // IN
                       __in const D3D10DDIARG_CALCPRIVATEDEVICESIZE *pData) // IN
 {
+   LOG_ENTRYPOINT();
    return sizeof(Device);
 }
 
@@ -104,7 +105,7 @@ CreateDevice(D3D10DDI_HADAPTER hAdapter,                 // IN
 {
    LOG_ENTRYPOINT();
 
-   if (0) {
+   if (dbg_print) {
       DebugPrintf("hAdapter = %p\n", hAdapter);
       DebugPrintf("pKTCallbacks = %p\n", pCreateData->pKTCallbacks);
       DebugPrintf("p10_1DeviceFuncs = %p\n", pCreateData->p10_1DeviceFuncs);
@@ -166,7 +167,7 @@ CreateDevice(D3D10DDI_HADAPTER hAdapter,                 // IN
 
    pDevice->draw_so_target = NULL;
 
-   if (0) {
+   if (dbg_print) {
       DebugPrintf("pDevice = %p\n", pDevice);
    }
 

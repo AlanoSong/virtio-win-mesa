@@ -22,6 +22,11 @@ st_debug_parse(void)
 
 #endif
 
+#ifdef DBG
+BOOLEAN dbg_print = TRUE;
+#else
+BOOLEAN dbg_print = FALSE;
+#endif
 
 void
 DebugPrintf(const char *format, ...)
